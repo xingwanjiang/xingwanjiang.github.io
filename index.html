@@ -2,8 +2,8 @@
  * @Author: xingwanjiang
  * @Date: 2022-06-16 09:23:08
  * @LastEditors: xingwanjiang
- * @LastEditTime: 2022-06-20 14:57:39
- * @Description: 测试b
+ * @LastEditTime: 2022-06-20 17:29:02
+ * @Description: 邢万江的博客
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -12,15 +12,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>邢万江</title>
+    <title>鱼非鱼</title>
 </head>
 
 <body>
-    <h1>邢万江</h1>
-    <h2>梦梦的大冤种（我就问你闪不闪）</h2>
+    <a href="./info.html">
+        <div class="main-name">
+            鱼非鱼
+        </div>
+    </a>
+    <div id="info" class="main-des" onclick="handleClick">早起的鸟儿有虫吃,早起的虫儿被鸟吃！</div>
 </body>
 
 </html>
+<script>
+    document.getElementById('info').addEventListener('click', handleClick)
+    /**
+     * @description: 点击绑定小菜园
+     * @return {*}
+     */
+    function handleClick() {
+        alert('没有了,现在没有开发')
+    }
+</script>
 <style>
     :root {
         /* Set neon color */
@@ -34,32 +48,44 @@
     }
 
     body {
-        font-family: 'AnoStencil', sans-serif;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        font-family: '楷体';
+        /* font-family: 'AnoStencil', sans-serif; */
         display: flex;
         flex-direction: column;
         display: -webkit-flex;
         justify-content: center;
         align-items: center;
-        background: #000;
-        min-height: 300px;
+        background: #333;
+        background-image: url('./image/bg.png');
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        position: relative;
     }
 
-    h1 {
-        font-size: 13rem;
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+
+    .main-name {
+        font-size: 5rem;
         border: 5px solid #fff;
-        padding: 50px;
+        padding: 20px;
         border-radius: 10px;
         text-transform: uppercase;
         color: #fff;
         animation: flicker 2s infinite alternate;
     }
 
-    h1::-moz-selection {
+    .main-name::-moz-selection {
         background-color: var(--neon-border-color);
         color: var(--neon-text-color);
     }
 
-    h1::selection {
+    .main-name::selection {
         background-color: var(--neon-border-color);
         color: var(--neon-text-color);
     }
@@ -101,11 +127,16 @@
         }
     }
 
-    h2 {
+    .main-des {
         color: #fff;
-        font-family: sans-serif;
-        font-size: 4em;
+        font-family: '楷体';
+        /* font-family: sans-serif; */
+        font-size: 2em;
         animation: animate 0.5s linear infinite;
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+        cursor: pointer;
     }
 
     @keyframes animate {
