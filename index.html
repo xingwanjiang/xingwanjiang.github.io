@@ -2,7 +2,7 @@
  * @Author: xingwanjiang
  * @Date: 2022-06-16 09:23:08
  * @LastEditors: xingwanjiang
- * @LastEditTime: 2022-06-20 17:29:02
+ * @LastEditTime: 2022-06-22 16:56:21
  * @Description: 邢万江的博客
 -->
 <!DOCTYPE html>
@@ -12,6 +12,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/three.js"></script>
+    <script src="./js/lottie.js"></script>
     <title>鱼非鱼</title>
 </head>
 
@@ -21,6 +23,8 @@
             鱼非鱼
         </div>
     </a>
+    <div id="app">
+    </div>
     <div id="info" class="main-des" onclick="handleClick">早起的鸟儿有虫吃,早起的虫儿被鸟吃！</div>
 </body>
 
@@ -33,6 +37,59 @@
      */
     function handleClick() {
         alert('没有了,现在没有开发')
+    }
+    // loadAnimation 渲染动画
+    const lottieAnimationItem = lottie.loadAnimation({
+        // 选取一个容器，用于渲染动画
+        container: document.querySelector("#app"),
+        // 定义JSON文件路径
+        path: "https://assets10.lottiefiles.com/packages/lf20_l3qxn9jy.json",
+        // 是否循环播放
+        loop: true,
+        // 渲染的格式svg/canvas/html，svg性能更优，兼容性更好
+        renderer: "svg",
+    });
+    //获取屏幕宽高
+    var windowWidth = window.screen.width;
+    var windowHeight = window.screen.height;
+
+    //创建雪花
+    function createSnow() {
+        var left = 0;
+        var top = 0;
+
+        //定义一个初始化随机数,使雪花在屏幕中
+        var left_random = Math.random() * windowWidth;
+        var top_random = Math.random() * windowHeight;
+        var div = document.createElement('div');
+        div.className = 'snow';
+        div.style.transform = 'scale(' + (Math.random()) + ')'
+
+        document.body.appendChild(div);
+
+        //雪花飘落
+        setInterval(function () {
+
+            div.style.left = left_random + left + 'px';
+            div.style.top = top_random + top + 'px'
+            left += 0.2;
+            top += 0.2;
+
+            //如果雪花跑到屏幕外面了,让雪花重新返回屏幕顶部
+            if (left_random + left >= windowWidth) {
+                left_random = Math.random();
+                left = 0;
+            }
+
+            if (top_random + top >= windowHeight) {
+                top_random = Math.random();
+                top = 0;
+            }
+        }, 10)
+
+    }
+    for (var i = 0; i < 200; i++) {
+        createSnow()
     }
 </script>
 <style>
@@ -58,11 +115,27 @@
         display: -webkit-flex;
         justify-content: center;
         align-items: center;
-        background: #333;
-        background-image: url('./image/bg.png');
+        background: rgb(0, 0, 0, 1);
+        /* background-image: url('./image/bg.png');
         background-size: 100% 100%;
-        background-repeat: no-repeat;
+        background-repeat: no-repeat; */
         position: relative;
+    }
+
+    #app {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+    }
+
+    .snow {
+        background: white;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
     }
 
     a {

@@ -2,7 +2,7 @@
  * @Author: xingwanjiang
  * @Date: 2022-06-20 16:18:45
  * @LastEditors: xingwanjiang
- * @LastEditTime: 2022-06-21 16:59:52
+ * @LastEditTime: 2022-06-22 18:00:10
  * @Description: 详情页面
 -->
 <!DOCTYPE html>
@@ -12,6 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/vue.js"></script>
     <title>鱼非鱼</title>
 </head>
 
@@ -33,10 +34,10 @@
                 <a class="MTA-img" href="http://">
                     <img class="MTA-img-item" src="./image/wechat.png" alt="" srcset="">
                 </a>
-                <a class="MTA-img" href="http://">
+                <a class="MTA-img" href="https://github.com/xingwanjiang/xwj.github.io">
                     <img class="MTA-img-item" src="./image/github.png" alt="" srcset="">
                 </a>
-                <a class="MTA-img" href="http://">
+                <a class="MTA-img" href="https://gitee.com/">
                     <img class="MTA-img-item" src="./image/gitee.png" alt="" srcset="">
                 </a>
             </div>
@@ -48,148 +49,20 @@
         </div>
         <!-- 右侧内容 -->
         <div class="main-content">
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
+            <template v-for="item in articleList">
+                <div class="main-content-article" :key="item.id">
+                    <div class="MCA-title">
+                        <div>{{ item.title }}</div>
+                        <div class="MCA-title-tag">{{ item.tag }}</div>
+                    </div>
+                    <a :href="item.url">
+                        <div class="MCA-content">
+                            {{item.content}}
+                        </div>
+                    </a>
+                    <div class="MCA-time">{{ item.time }}</div>
                 </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-            <div class="main-content-article">
-                <div class="MCA-title">内存泄露</div>
-                <div class="MCA-content">
-                    最近收到测试人员的反馈说我们开发的页面偶现卡死，点击无反应的情况，特别是打开页面较久的时候发生概率较高。打开任务管理器，看到内存占有率已经很高了，初步判断可能存在内存泄漏的情况。下面排查内存泄漏的原因。
-                    系统进程不再用到的内存，没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统性能，重则导致进程崩溃。Chrome 限制了浏览器所能使用的内存极限（64 位为
-                    1.4GB，32 位为 1.0GB）
-                    引起内存泄漏的原因
-                    意外的全局变量
-                    由于 js 对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局对象就是 window
-                    对象。变量在窗口关闭或重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。
-                    未声明变量
-                </div>
-                <div class="MCA-time">2022-6-20</div>
-            </div>
-
-
+            </template>
         </div>
     </div>
 </body>
@@ -227,6 +100,33 @@
             minutes + ":" + seconds + "\t" + vWeek[vWeek_s];
 
     }
+    new Vue({
+        el: '.main', //el用于指定当前Vue实例为哪个容器服务，值通常为选择器字符串。
+        data: { //data中用于存储数据，数据供el所指定的容器去使用。
+            articleList: [{
+                    title: '使用flexible进行屏幕的适配',
+                    content: '使用rem对屏幕进行适配',
+                    url: './article/fleible.md',
+                    tag: '学习相关',
+                    time: '2022-6-22'
+                },
+                {
+                    title: '类似时间分布的',
+                    content: '类似时间分布的相关代码展示和理解',
+                    url: './article/2022-6-12.md',
+                    tag: '学习相关',
+                    time: '2022-6-22'
+                },
+                {
+                    title: '中午吃什么',
+                    content: '点开有惊喜哦',
+                    url: './article/eat.html',
+                    tag: '其他',
+                    time: '2022-6-22'
+                }
+            ]
+        }
+    })
 </script>
 <style>
     * {
@@ -245,6 +145,11 @@
         display: flex;
     }
 
+    a {
+        text-decoration: none;
+        color: #409EFF;
+    }
+
     .main-tabs {
         width: 300px;
         height: 100%;
@@ -256,7 +161,7 @@
         border-radius: 5px;
         text-align: center;
         margin: 10px 0 10px 10px;
-        padding: 80px 10px 50px 10px;
+        padding-top: 80px;
     }
 
     /* .main-tabs-name {
@@ -383,11 +288,13 @@
     .main-content {
         flex: 1;
         padding: 10px;
+        max-height: 92vh;
+        overflow: auto;
     }
 
     .main-content-article {
         padding: 10px;
-        background: #DCDFE6;
+        background: #F2F6FC;
         border-radius: 5px;
         margin-bottom: 10px;
     }
@@ -396,18 +303,28 @@
         color: #000000;
         font-size: 20px;
         font-weight: 800;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .MCA-title-tag {
+        padding: 5px;
+        color: #ffffff;
+        font-size: 12px;
+        border-radius: 4px;
+        background-color: #67C23A;
     }
 
     .MCA-content {
         padding: 10px;
-        color: #606266;
+        color: #409EFF;
         text-indent: 2em;
     }
 
     .MCA-time {
         display: flex;
         justify-content: flex-end;
-        color: #C0C4CC;
+        color: #303133;
     }
 
     .main-tabs-address {
