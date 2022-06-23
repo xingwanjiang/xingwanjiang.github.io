@@ -2,7 +2,7 @@
  * @Author: xingwanjiang
  * @Date: 2022-06-16 09:23:08
  * @LastEditors: xingwanjiang
- * @LastEditTime: 2022-06-22 16:56:21
+ * @LastEditTime: 2022-06-23 17:59:50
  * @Description: 邢万江的博客
 -->
 <!DOCTYPE html>
@@ -24,6 +24,9 @@
         </div>
     </a>
     <div id="app">
+    </div>
+    <div class="rotate">
+        <img class="img" src="./image/earth2.png" alt="">
     </div>
     <div id="info" class="main-des" onclick="handleClick">早起的鸟儿有虫吃,早起的虫儿被鸟吃！</div>
 </body>
@@ -116,9 +119,9 @@
         justify-content: center;
         align-items: center;
         background: rgb(0, 0, 0, 1);
-        /* background-image: url('./image/bg.png');
+        background-image: url('./image/bg.min.png');
         background-size: 100% 100%;
-        background-repeat: no-repeat; */
+        background-repeat: no-repeat;
         position: relative;
     }
 
@@ -229,6 +232,35 @@
 
         75% {
             text-shadow: -1.5px 1.5px 0 #0ff, -1.5px 1.5px 0 #f00;
+        }
+    }
+
+    .rotate {
+        position: absolute;
+        top: -300px;
+        right: -300px;
+        animation: rotate linear infinite 60s;
+    }
+
+    .img {
+        width: 1000px;
+        height: auto;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0);
+            opacity: 0.9;
+        }
+
+        50% {
+            transform: rotate(180deg);
+            opacity: 1;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            opacity: 0.9;
         }
     }
 </style>
