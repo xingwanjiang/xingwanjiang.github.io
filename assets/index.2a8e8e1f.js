@@ -1,1 +1,0 @@
-import{j as c}from"./index.ca743336.js";const n={setup(a){const{currentRoute:t,replace:s}=c(),{query:r}=t.value;let{redirect:e}=r;return Reflect.deleteProperty(r,"redirect"),Array.isArray(e)&&(e=e.join("/")),e.startsWith("/redirect")&&(e="/"),s({path:e.startsWith("/")?e:"/"+e,query:r}),(i,o)=>null}};export{n as default};
