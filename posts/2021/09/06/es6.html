@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>学会这些让你的代码更优雅 | 差不多先生的博客</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="个人博客">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.4144a826.css" as="style"><link rel="preload" href="/assets/js/app.d9f31375.js" as="script"><link rel="preload" href="/assets/js/6.56c26bb2.js" as="script"><link rel="preload" href="/assets/js/8.e975dc3c.js" as="script"><link rel="prefetch" href="/assets/js/10.91ab0b1e.js"><link rel="prefetch" href="/assets/js/11.ce159ba6.js"><link rel="prefetch" href="/assets/js/2.a4cbfc7f.js"><link rel="prefetch" href="/assets/js/3.5e78b2cc.js"><link rel="prefetch" href="/assets/js/4.43cef900.js"><link rel="prefetch" href="/assets/js/5.bee9040d.js"><link rel="prefetch" href="/assets/js/7.227acdc0.js"><link rel="prefetch" href="/assets/js/9.8e77e1a9.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.4144a826.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout" data-v-ff142c90><header class="header-container" style="background-size:cover;background-repeat:no-repeat;background-position:center;background-attachment:scroll;background-image:url(/post-bg.jpeg);" data-v-d72c2ab4 data-v-ff142c90><nav class="navbar" style="position:absolute;opacity:1;transition:all 0.5s ease-in-out;" data-v-d72c2ab4><a href="/" class="navbar-link router-link-active">
+    差不多先生
+  </a> <ul class="navbar-links"><li><a href="/" class="router-link-active">
+        首页
+      </a></li><li><a href="/about/">
+        关于我
+      </a></li><li><a href="/tags/">
+        标签
+      </a></li></ul> <div id="nav-icon"><span></span><span></span><span></span></div></nav> <div class="header-title" data-v-d72c2ab4 data-v-d72c2ab4><h1 data-v-d72c2ab4>学会这些让你的代码更优雅</h1> <p data-v-d72c2ab4></p></div></header> <div class="container" data-v-07d48e8a data-v-ff142c90><main class="main" style="width:60%;" data-v-07d48e8a><div class="post" data-v-07d48e8a data-v-07d48e8a><article class="main-div"><div class="post-content content content__default"><p>一些实用的小方法
+</p> <h2 id="_1、array-prototype-filter"><a href="#_1、array-prototype-filter" class="header-anchor">#</a> 1、Array.prototype.filter</h2> <p>顾名思义，用来过滤的方法</p> <div class="language- extra-class"><pre class="language-text"><code>const filterArr = [1, 2, 3, 4, 5]
+
+// 三个参数：遍历项 索引 数组本身
+// 配合箭头函数，返回大于3的集合
+const filterArr2 = filterArr.filter((num, index, arr) =&gt; num &gt; 3)
+console.log(filterArr2)
+[ 4, 5 ]
+</code></pre></div><h2 id="_2、array-prototype-some"><a href="#_2、array-prototype-some" class="header-anchor">#</a> 2、Array.prototype.some</h2> <p>some，意思就是只有一个是真，那就返回真。</p> <div class="language- extra-class"><pre class="language-text"><code>const someArr = [false, true, false, true, false]
+
+// 三个参数：遍历项 索引 数组本身
+// 配合箭头函数，只要有一个为true，就返回true，一个都true都没有，就返回false
+const someArr2 = someArr.some((bol, index, arr) =&gt; bol)
+console.log(someArr2)
+true
+</code></pre></div><h2 id="_3、array-prototype-every"><a href="#_3、array-prototype-every" class="header-anchor">#</a> 3、Array.prototype.every</h2> <p>every跟some是相反的，some是只有一个就行，every是要所有为真才返回真。</p> <div class="language- extra-class"><pre class="language-text"><code>const everyArr = [false, true, false, true, false]
+
+// 三个参数：遍历项 索引 数组本身
+// 配合箭头函数，需要所有为true，才返回true，否则返回false
+const everyArr2 = everyArr.every((bol, index, arr) =&gt; bol)
+console.log(everyArr2)
+</code></pre></div><h2 id="_4、find-和-findindex"><a href="#_4、find-和-findindex" class="header-anchor">#</a> 4、find 和 findIndex</h2> <ul><li>find：找到返回被找元素，找不到返回undefined</li> <li>findIndex：找到返回被找元素索引，找不到返回-1</li></ul> <div class="language- extra-class"><pre class="language-text"><code>const findArr = [
+  { name: '科比', no: '24' },
+  { name: '罗斯', no: '1' },
+  { name: '利拉德', no: '0' }
+]
+
+const kobe = findArr.find(({ name }) =&gt; name === '科比')
+const kobeIndex = findArr.findIndex(({ name }) =&gt; name === '科比')
+console.log(kobe) // { name: '科比', no: '24' }
+console.log(kobeIndex) // 0
+
+</code></pre></div><h2 id="_5、includes"><a href="#_5、includes" class="header-anchor">#</a> 5、includes</h2> <p>传入元素，如果数组中能找到此元素，则返回true，否则返回false</p> <div class="language- extra-class"><pre class="language-text"><code>const includeArr = [1, 2 , 3, '林三心', '科比']
+
+const isKobe = includeArr.includes('科比')
+console.log(isKobe) // true
+
+</code></pre></div><p>跟indexOf很像，但还是有区别的</p> <div class="language- extra-class"><pre class="language-text"><code>const arr = [1, 2, NaN]
+
+console.log(arr.indexOf(NaN)) // -1  indexOf找不到NaN
+
+</code></pre></div><h2 id="_6、求幂运算符"><a href="#_6、求幂运算符" class="header-anchor">#</a> 6、求幂运算符</h2> <p>以前求幂，我们需要这么写</p> <div class="language- extra-class"><pre class="language-text"><code>const num = Math.pow(3, 2) // 9
+</code></pre></div><p>ES7提供了求幂运算符：<code>**</code></p> <div class="language- extra-class"><pre class="language-text"><code>const num = 3 ** 2 // 9
+</code></pre></div><h2 id="_7、object-values"><a href="#_7、object-values" class="header-anchor">#</a> 7、Object.values</h2> <p>可以用来获取对象的value的集合</p> <div class="language- extra-class"><pre class="language-text"><code>const obj = {
+  name: '林三心',
+  age: 22,
+  gender: '男'
+}
+
+const values = Object.values(obj)
+console.log(values) // [ '林三心', 22, '男' ]
+</code></pre></div><h2 id="_8、object-entries"><a href="#_8、object-entries" class="header-anchor">#</a> 8、Object.entries</h2> <p>可以用来获取对象的键值对集合</p> <div class="language- extra-class"><pre class="language-text"><code>const obj = {
+  name: '林三心',
+  age: 22,
+  gender: '男'
+}
+
+const entries = Object.entries(obj)
+console.log(entries) 
+// [ [ 'name', '林三心' ], [ 'age', 22 ], [ 'gender', '男' ] ]
+</code></pre></div><h2 id="_9、async-await"><a href="#_9、async-await" class="header-anchor">#</a> 9、async/await</h2> <p>这个是很常用的语法了，我的理解就是：<code>以同步方式执行异步操作</code></p> <p>我们平时可能会遇到这种场景，接口一，请求到数据一，而数据一被当做请求二的参数去请求数据二，我们会用Promise这么做</p> <div class="language- extra-class"><pre class="language-text"><code>function fn() {
+  // 模拟第一次请求
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve(5)
+    }, 1000)
+  }).then(res =&gt; {
+    // 模拟第二次请求
+    new Promise((resolve, reject) =&gt; {
+      setTimeout(() =&gt; {
+        // 拿第一次请求的数据去乘10，当做第二次请求的数据
+        resolve(res * 10)
+      }, 2000)
+    }).then(sres =&gt; {
+      console.log(sres)
+    })
+
+  })
+}
+fn() // 1 + 2 = 3 3秒后输出 50
+</code></pre></div><p>这样的嵌套是不美观的，如果有很多个接口，那就会嵌套很多层，此时我们可以使用async/await来以同步方式执行异步，注意以下几点：</p> <ul><li>await只能在async函数里使用</li> <li>await后面最好接Promise，如果后面接的是普通函数则会直接执行</li> <li>async函数返回的是一个Promise</li></ul> <div class="language- extra-class"><pre class="language-text"><code>function fn1 () {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve(5)
+    }, 1000)
+  })
+}
+
+function fn2 (data) {
+  return new Promise((resolve, reject) =&gt; {
+    setTimeout(() =&gt; {
+      resolve(data * 10)
+    }, 2000)
+  })
+}
+
+async function req () {
+  // 同步方式执行异步，像排队一样
+  const data1 = await fn1() // 等待1秒后返回数据再往下执行
+  const data2 = await fn2(data1) // 拿data1去请求2秒后，往下走
+  console.log(data2) // 总共3秒后 输出 50
+}
+req()
+
+</code></pre></div><h2 id="_10、promise-finally"><a href="#_10、promise-finally" class="header-anchor">#</a> 10、Promise.finally</h2> <p>新增的Promise方法，无论失败或者成功状态，都会执行这个函数</p> <div class="language- extra-class"><pre class="language-text"><code>// cheng
+new Promise((resolve, reject) =&gt; {
+      resolve('成功喽')
+    }).then(
+      res =&gt; { console.log(res) },
+      err =&gt; { console.log(err) }
+    ).finally(() =&gt; { console.log('我是finally') })
+
+new Promise((resolve, reject) =&gt; {
+    reject('失败喽')
+  }).then(
+    res =&gt; { console.log(res) },
+    err =&gt; { console.log(err) }
+  ).finally(() =&gt; { console.log('我是finally') })
+</code></pre></div></div></article> <!----></div></main> <aside class="aside" data-v-07d48e8a data-v-07d48e8a><div class="info-card main-div" data-v-78b8ffac data-v-07d48e8a><div class="info-card-header" style="background-size:cover;background-repeat:no-repeat;background-position:center;background-attachment:scroll;background-image:url(/avatar-bg.jpeg);" data-v-78b8ffac><img src="/avatar.png" class="info-avatar" data-v-78b8ffac></div> <div class="info-card-body" data-v-78b8ffac><section class="info-name" data-v-78b8ffac>
+      差不多先生
+    </section> <section class="info-desc" data-v-78b8ffac>In me the tiger sniffs the rose<br/>心有猛虎，细嗅蔷薇</section> <section class="info-contact" data-v-78b8ffac><section data-v-78b8ffac><span data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:1em;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-location" data-v-78b8ffac data-v-78b8ffac></use></svg><span class="info-text" data-v-78b8ffac data-v-78b8ffac>
+          WuXi, China
+        </span></span></section> <!----> <section data-v-78b8ffac><span data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:1em;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-email" data-v-78b8ffac data-v-78b8ffac></use></svg><span class="info-text" data-v-78b8ffac data-v-78b8ffac>
+          760996296@qq.com
+        </span></span></section></section></div> <div class="info-card-footer" data-v-78b8ffac><p class="footer-sns-link" data-v-78b8ffac><a target="_blank" href="https://blog.csdn.net/weixin_46763556" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-csdn" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a><a target="_blank" href="https://juejin.cn/user/3404513258767709" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-juejin" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a><a target="_blank" href="https://github.com/xingwanjiang" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-github" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a></p></div></div> <div class="post-toc main-div aside-toc" style="position:relative;xingwanjiang:0;width:0px;" data-v-07d48e8a><h4>- CATALOG</h4> <div class="post-nav-toc"><ul><li><a href="/posts/2021/09/06/es6.html#_1、array-prototype-filter">1、Array.prototype.filter</a></li><li><a href="/posts/2021/09/06/es6.html#_2、array-prototype-some">2、Array.prototype.some</a></li><li><a href="/posts/2021/09/06/es6.html#_3、array-prototype-every">3、Array.prototype.every</a></li><li><a href="/posts/2021/09/06/es6.html#_4、find-和-findindex">4、find 和 findIndex</a></li><li><a href="/posts/2021/09/06/es6.html#_5、includes">5、includes</a></li><li><a href="/posts/2021/09/06/es6.html#_6、求幂运算符">6、求幂运算符</a></li><li><a href="/posts/2021/09/06/es6.html#_7、object-values">7、Object.values</a></li><li><a href="/posts/2021/09/06/es6.html#_8、object-entries">8、Object.entries</a></li><li><a href="/posts/2021/09/06/es6.html#_9、async-await">9、async/await</a></li><li><a href="/posts/2021/09/06/es6.html#_10、promise-finally">10、Promise.finally</a></li></ul></div></div></aside></div> <footer class="footer" data-v-ff142c90><p class="footer-sns-link"><a target="_blank" href="https://blog.csdn.net/weixin_46763556" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-csdn"></use></svg></span></a><a target="_blank" href="https://juejin.cn/user/3404513258767709" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-juejin"></use></svg></span></a><a target="_blank" href="https://github.com/xingwanjiang" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-github"></use></svg></span></a></p> <div class="copyright"><span id="custom">Copyright &copy; xingwanjiang Blog 2020 <br /></span> <!----></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.d9f31375.js" defer></script><script src="/assets/js/6.56c26bb2.js" defer></script><script src="/assets/js/8.e975dc3c.js" defer></script>
+  </body>
+</html>
