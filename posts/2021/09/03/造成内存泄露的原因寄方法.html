@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>造成内存泄露的原因及解决方法 | 差不多先生的博客</title>
+    <meta name="generator" content="VuePress 1.9.7">
+    <link rel="icon" href="/favicon.ico">
+    <meta name="description" content="个人博客">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    
+    <link rel="preload" href="/assets/css/0.styles.4144a826.css" as="style"><link rel="preload" href="/assets/js/app.4c583df9.js" as="script"><link rel="preload" href="/assets/js/6.56c26bb2.js" as="script"><link rel="preload" href="/assets/js/7.227acdc0.js" as="script"><link rel="prefetch" href="/assets/js/10.882ab7d9.js"><link rel="prefetch" href="/assets/js/2.a4cbfc7f.js"><link rel="prefetch" href="/assets/js/3.5e78b2cc.js"><link rel="prefetch" href="/assets/js/4.43cef900.js"><link rel="prefetch" href="/assets/js/5.bee9040d.js"><link rel="prefetch" href="/assets/js/8.c4515070.js"><link rel="prefetch" href="/assets/js/9.0156dcba.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.4144a826.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="global-layout" data-v-ff142c90><header class="header-container" style="background-size:cover;background-repeat:no-repeat;background-position:center;background-attachment:scroll;background-image:url(/post-bg.jpeg);" data-v-d72c2ab4 data-v-ff142c90><nav class="navbar" style="position:absolute;opacity:1;transition:all 0.5s ease-in-out;" data-v-d72c2ab4><a href="/" class="navbar-link router-link-active">
+    差不多先生
+  </a> <ul class="navbar-links"><li><a href="/" class="router-link-active">
+        首页
+      </a></li><li><a href="/about/">
+        关于我
+      </a></li><li><a href="/tags/">
+        标签
+      </a></li></ul> <div id="nav-icon"><span></span><span></span><span></span></div></nav> <div class="header-title" data-v-d72c2ab4 data-v-d72c2ab4><h1 data-v-d72c2ab4>造成内存泄露的原因及解决方法</h1> <p data-v-d72c2ab4></p></div></header> <div class="container" data-v-07d48e8a data-v-ff142c90><main class="main" style="width:60%;" data-v-07d48e8a><div class="post" data-v-07d48e8a data-v-07d48e8a><article class="main-div"><div class="post-content content content__default"><p>内存泄漏
+</p> <h2 id="什么是内存泄露"><a href="#什么是内存泄露" class="header-anchor">#</a> 什么是内存泄露？</h2> <p>系统进程不在用到的内存没有及时释放，就叫做内存泄漏（memory leak）。当内存占用越来越高，轻则影响系统的性能，重则导致系统进程崩溃。Chrome限制了浏览器所能使用的内存极限（64位为1.4GB，32位为1.0GB）</p> <h2 id="引起内存泄露的原因"><a href="#引起内存泄露的原因" class="header-anchor">#</a> 引起内存泄露的原因</h2> <ul><li><code>意外的全局变量</code>
+由于js对未声明变量的处理方式是在全局对象上创建该变量的引用。如果在浏览器中，全局的对象就是windows对象。变量在窗口关闭或者重新刷新页面之前都不会被释放，如果未声明的变量缓存大量的数据，就会导致内存泄露。</li></ul> <p><code>未声明变量</code></p> <div class="language- extra-class"><pre class="language-text"><code>function fn() {  
+    a = 'global variable'
+  }
+  fn()
+</code></pre></div><p><code>使用this创建的变量（this的指向是windows）</code></p> <div class="language- extra-class"><pre class="language-text"><code>function fn(){ 
+  this.a='global'
+ }
+ fn()
+</code></pre></div><p><code>解决方法</code>：</p> <ul><li>避免创建全局变量</li> <li>使用严格模式，在<code>JavaScript</code>文件头部或者函数的顶部加上<code>use strict</code>。</li></ul> <h2 id="闭包引起的内存泄露"><a href="#闭包引起的内存泄露" class="header-anchor">#</a> 闭包引起的内存泄露</h2> <p>原因:闭包可以读取函数内部的变量，然后让这些变量始终保存在变量中。如果在使用结束后没有将局部变量清除，就可能导致内存泄露。</p> <div class="language- extra-class"><pre class="language-text"><code>function fn () { 
+  var a = &quot;I'm a&quot;;  
+    return 
+  function () {    
+    console.log(a)  
+    }
+  }
+</code></pre></div><p><code>解决</code>：将事件处理函数定义在外部，解除闭包，或者在定义事件处理的函数的外部函数中。</p> <p><code>比如</code>：在循环中的函数表达式，能复用最好放在循环外面。</p> <div class="language- extra-class"><pre class="language-text"><code>// bad
+for (var k = 0; k &lt; 10; k++) { 
+      var t = function (a) {    
+      // 创建了10次  函数对象。    
+      console.log(a) 
+      } 
+    t(k)} 
+// good
+function t(a) {  
+  console.log(a)}
+  for (var k = 0; k &lt; 10; k++) { 
+    t(k)}t = null
+  }
+</code></pre></div><h2 id="没有清理的dom元素引用"><a href="#没有清理的dom元素引用" class="header-anchor">#</a> 没有清理的DOM元素引用</h2> <p><code>原因</code>：虽然别的地方删除了，但是对象中还存在对dom的引用。</p> <div class="language- extra-class"><pre class="language-text"><code>// 在对象中引用DOM
+var elements = {  
+     btn: document.getElementById('btn')
+}
+function doSomeThing() { 
+     elements.btn.click()
+} 
+function removeBtn() {  
+// 将body中的btn移除, 也就是移除 DOM树中的btn  
+   document.body.removeChild(document.getElementById('button')) 
+// 但是此时全局变量elements还是保留了对btn的引用, btn还是存在于内存中,不能被GC回收
+}
+</code></pre></div><p><code>解决方法</code>：手动删除，elements.btn = null</p> <h2 id="被遗忘的定时器或者回调"><a href="#被遗忘的定时器或者回调" class="header-anchor">#</a> 被遗忘的定时器或者回调</h2> <p>定时器中有dom的引用，即使dom删除了，但是定时器还在，所以内存中还是有这个dom。</p> <div class="language- extra-class"><pre class="language-text"><code>// 定时器
+var serverData = loadData()setInterval(
+function () {  
+  var renderer = document.getElementById('renderer')  
+  if (renderer) {    
+      renderer.innerHTML = JSON.stringify(serverData)  
+  }}, 5000) 
+  // 观察者模式
+ var btn = document.getElementById('btn')
+ function onClick(element) {  
+    element.innerHTMl = &quot;I'm innerHTML&quot;
+  }
+ btn.addEventListener('click', onClick)
+</code></pre></div><p><code>解决方法</code>：</p> <ul><li>手动删除定时器和dom。</li> <li><code>removeEventListener</code>移除事件监听。</li></ul> <h2 id="vue中容易出现内存泄露的几种情况"><a href="#vue中容易出现内存泄露的几种情况" class="header-anchor">#</a> vue中容易出现内存泄露的几种情况</h2> <p>在Vue SPA开发应用中，那么就更要当心内存泄露的问题。因为在SPA的设计中，用户使用它时是不需要刷新浏览器的，所以在JavaScript应用需要自行清理组件来确保垃圾回收以预期的方式生效。因此开发过程中，你需要时刻警惕内存泄露的问题。</p> <h2 id="全局变量在成的内存泄露"><a href="#全局变量在成的内存泄露" class="header-anchor">#</a> 全局变量在成的内存泄露</h2> <p>声明的全局变量在切换页面的时候没有清空</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;  
+   &lt;div id=&quot;home&quot;&gt;这里是首页&lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;  
+ export default {    
+   mounted() {      
+     window.test = {        
+        // 此处在全局window对象中引用了本页面的dom对象 
+        name: 'home',        
+        node: document.getElementById('home')     
+      }    
+    }  
+  }
+&lt;/script&gt;
+</code></pre></div><p><code>解决方案</code>：在页面卸载的时候顺便处理掉该应用。</p> <div class="language- extra-class"><pre class="language-text"><code>destroyed () { 
+   // 页面卸载的时候解除引用
+   window.test = null 
+}
+
+</code></pre></div><h2 id="监听在window-body等事件没有解绑"><a href="#监听在window-body等事件没有解绑" class="header-anchor">#</a> 监听在window/body等事件没有解绑</h2> <p>特别注意window.addEventListener之类的时间监听</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;
+  &lt;div id=&quot;home&quot;&gt;
+   这里是首页
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+ export default {
+   mounted () {  
+     // window对象引用了home页面的方法
+     window.addEventListener('resize', this.func)
+    }
+  }
+&lt;/script&gt;
+</code></pre></div><p><code>解决方法</code>：在页面销毁的时候，顺便解除引用，释放内存。</p> <div class="language- extra-class"><pre class="language-text"><code>mounted () {  
+  window.addEventListener('resize', this.func)
+},
+beforeDestroy () { 
+  window.removeEventListener('resize', this.func)
+}
+
+</code></pre></div><h2 id="绑在eventbus的事件没有解绑"><a href="#绑在eventbus的事件没有解绑" class="header-anchor">#</a> 绑在EventBus的事件没有解绑</h2> <p>举个粒子🌰</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;template&gt;  
+  &lt;div id=&quot;home&quot;&gt;这里是首页&lt;/div&gt;
+&lt;/template&gt;
+ &lt;script&gt;
+  export default {  
+    mounted () {   
+       this.$EventBus.$on('homeTask', res =&gt; this.func(res))  
+    }}
+&lt;/script&gt;
+</code></pre></div><p><code>解决方法</code>：在页面卸载的时候也可以考虑引用</p> <div class="language- extra-class"><pre class="language-text"><code>mounted () { 
+   this.$EventBus.$on('homeTask', res =&gt; this.func(res))
+},
+
+destroyed () { 
+   this.$EventBus.$off()
+}
+</code></pre></div><h2 id="echarts"><a href="#echarts" class="header-anchor">#</a> Echarts</h2> <p>每一个图例在没有数据的时候它会创建一个定时器去渲染气泡，页面切换后，echarts 图例是销毁了，但是这个 echarts 的实例还在内存当中，同时它的气泡渲染定时器还在运行。这就导致 Echarts 占用 CPU 高，导致浏览器卡顿，当数据量比较大时甚至浏览器崩溃。</p> <p><code>解决方法</code>：加一个 beforeDestroy()方法释放该页面的 chart 资源，我也试过使用 dispose()方法，但是 dispose 销毁这个图例，图例是不存在了，但图例的 resize()方法会启动，则会报没有 resize 这个方法，而 clear()方法则是清空图例数据，不影响图例的 resize，而且能够释放内存，切换的时候就很顺畅了</p> <div class="language- extra-class"><pre class="language-text"><code>beforeDestroy () {  this.chart.clear()}
+
+</code></pre></div><h2 id="v-if-指令产生的内存泄露"><a href="#v-if-指令产生的内存泄露" class="header-anchor">#</a> v-if 指令产生的内存泄露</h2> <p>v-if 绑定到 false 的值，但是实际上 dom 元素在隐藏的时候没有被真实的释放掉。</p> <p>比如下面的示例中，我们加载了一个带有非常多选项的选择框，然后我们用到了一个显示/隐藏按钮，通过一个 v-if 指令从虚拟 DOM 中添加或移除它。这个示例的问题在于这个 v-if 指令会从 DOM 中移除父级元素，但是我们并没有清除由 Choices.js 新添加的 DOM 片段，从而导致了内存泄漏。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;div id=&quot;app&quot;&gt;
+  &lt;button v-if=&quot;showChoices&quot; @click=&quot;hide&quot;&gt;Hide&lt;/button&gt;
+  &lt;button v-if=&quot;!showChoices&quot; @click=&quot;show&quot;&gt;Show&lt;/button&gt;  
+  &lt;div v-if=&quot;showChoices&quot; /&gt;
+&lt;/div&gt;
+
+&lt;script&gt;  
+export default {    
+  data() {      
+    return {        
+             showChoices: true,
+            }    
+      },    
+  mounted: function () {
+          this.initializeChoices()
+     },    
+  methods: {      
+    initializeChoices: function () { 
+      // 我们来为选择框载入很多选项，这样的话它会占用
+      let list = [] 
+    }
+  } 
+}  
+&lt;/script&gt;    
+</code></pre></div><p>在上述的示例中，我们可以用 hide() 方法在将选择框从 DOM 中移除之前做一些清理工作，来解决内存泄露问题。为了做到这一点，我们会在 Vue 实例的数据对象中保留一个属性，并会使用 Choices API 中的 destroy() 方法将其清除。</p> <div class="language- extra-class"><pre class="language-text"><code>&lt;div id=&quot;app&quot;&gt;  
+&lt;button v-if=&quot;showChoices&quot; @click=&quot;hide&quot;&gt;Hide&lt;/button&gt; 
+ &lt;button v-if=&quot;!showChoices&quot; @click=&quot;show&quot;&gt;Show&lt;/button&gt; 
+ &lt;div v-if=&quot;showChoices&quot;&gt;   
+ &lt;select id=&quot;choices-single-default&quot;&gt;&lt;/select&gt; 
+ &lt;/div&gt;
+&lt;/div&gt;
+ &lt;script&gt;  
+ export default {    
+   data() {      
+     return {       
+           showChoices: true,       
+           choicesSelect: null     
+        }    
+       },    
+  mounted: function () {
+    this.initializeChoices()    
+  },    
+  methods: {      
+    initializeChoices: function () {
+        let list = []        
+        for (let i = 0; i &lt; 1000; i++) { 
+            list.push({            
+                label: 'Item ' + i,
+                value: i,         
+               })        
+            }         
+    // 在我们的 Vue 实例的数据对象中设置一个 `choicesSelect` 的引用this.choicesSelect = new Choices(&quot;#choices-single-default&quot;, {
+       searchEnabled: true,
+       removeItemButton: true,         
+       choices: list,       
+      })     
+    },      
+    show: function () {       
+       this.showChoices = true        
+       this.$nextTick(() =&gt; {
+           this.initializeChoices()       
+          })      
+        },     
+    hide: function () {  
+    // 现在我们可以让 Choices 使用这个引用，从 DOM 中移除这些元素之前进行清理工作   this.choicesSelect.destroy()        
+       this.showChoices = false     
+       }
+&lt;/script&gt;
+</code></pre></div><h2 id="es6防止内存泄露"><a href="#es6防止内存泄露" class="header-anchor">#</a> ES6防止内存泄露</h2> <p>前面说过，及时清除引用非常重要。但是，你不可能记得那么多，有时候一疏忽就忘了，所以才有那么多内存泄漏。
+ES6 考虑到这点，推出了两种新的数据结构：weakset 和 weakmap 。他们对值的引用都是不计入垃圾回收机制的，也就是说，如果其他对象都不再引用该对象，那么垃圾回收机制会自动回收该对象所占用的内存。</p> <div class="language- extra-class"><pre class="language-text"><code>  const wm = new WeakMap()
+  const element = document.getElementById('example')
+  vm.set(element, 'something')
+  vm.get(element)
+</code></pre></div><p>上面代码中，先新建一个 Weakmap 实例。然后，将一个 DOM 节点作为键名存入该实例，并将一些附加信息作为键值，一起存放在 WeakMap 里面。这时，WeakMap 里面对 element 的引用就是弱引用，不会被计入垃圾回收机制。
+注册监听事件的 listener 对象很适合用 WeakMap 来实现。</p> <div class="language- extra-class"><pre class="language-text"><code>// 代码
+1.ele.addEventListener('click', handler, false) 
+// 代码
+2.const listener = new WeakMap()
+  listener.set(ele, handler)
+  ele.addEventListener('click', listener.get(ele), false)
+</code></pre></div><p>代码 2 比起代码 1 的好处是：由于监听函数是放在 WeakMap 里面，一旦 dom 对象 ele 消失，与它绑定的监听函数 handler 也会自动消失。</p></div></article> <!----></div></main> <aside class="aside" data-v-07d48e8a data-v-07d48e8a><div class="info-card main-div" data-v-78b8ffac data-v-07d48e8a><div class="info-card-header" style="background-size:cover;background-repeat:no-repeat;background-position:center;background-attachment:scroll;background-image:url(/avatar-bg.jpeg);" data-v-78b8ffac><img src="/avatar.png" class="info-avatar" data-v-78b8ffac></div> <div class="info-card-body" data-v-78b8ffac><section class="info-name" data-v-78b8ffac>
+      差不多先生
+    </section> <section class="info-desc" data-v-78b8ffac>In me the tiger sniffs the rose<br/>心有猛虎，细嗅蔷薇</section> <section class="info-contact" data-v-78b8ffac><section data-v-78b8ffac><span data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:1em;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-location" data-v-78b8ffac data-v-78b8ffac></use></svg><span class="info-text" data-v-78b8ffac data-v-78b8ffac>
+          WuXi, China
+        </span></span></section> <!----> <section data-v-78b8ffac><span data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:1em;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-email" data-v-78b8ffac data-v-78b8ffac></use></svg><span class="info-text" data-v-78b8ffac data-v-78b8ffac>
+          760996296@qq.com
+        </span></span></section></section></div> <div class="info-card-footer" data-v-78b8ffac><p class="footer-sns-link" data-v-78b8ffac><a target="_blank" href="https://blog.csdn.net/weixin_46763556" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-csdn" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a><a target="_blank" href="https://juejin.cn/user/3404513258767709" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-juejin" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a><a target="_blank" href="https://github.com/xingwanjiang" class="sns-link" data-v-78b8ffac><span class="sns-icon" data-v-78b8ffac data-v-78b8ffac><svg class="icon" style="font-size:35px;" data-v-78b8ffac data-v-78b8ffac><use xlink:href="#icon-github" data-v-78b8ffac data-v-78b8ffac></use></svg></span></a></p></div></div> <div class="post-toc main-div aside-toc" style="position:relative;xingwanjiang:0;width:0px;" data-v-07d48e8a><h4>- CATALOG</h4> <div class="post-nav-toc"><ul><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#什么是内存泄露">什么是内存泄露？</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#引起内存泄露的原因">引起内存泄露的原因</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#闭包引起的内存泄露">闭包引起的内存泄露</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#没有清理的dom元素引用">没有清理的DOM元素引用</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#被遗忘的定时器或者回调">被遗忘的定时器或者回调</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#vue中容易出现内存泄露的几种情况">vue中容易出现内存泄露的几种情况</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#全局变量在成的内存泄露">全局变量在成的内存泄露</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#监听在window-body等事件没有解绑">监听在window/body等事件没有解绑</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#绑在eventbus的事件没有解绑">绑在EventBus的事件没有解绑</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#echarts">Echarts</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#v-if-指令产生的内存泄露">v-if 指令产生的内存泄露</a></li><li><a href="/posts/2021/09/03/%E9%80%A0%E6%88%90%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%AF%84%E6%96%B9%E6%B3%95.html#es6防止内存泄露">ES6防止内存泄露</a></li></ul></div></div></aside></div> <footer class="footer" data-v-ff142c90><p class="footer-sns-link"><a target="_blank" href="https://blog.csdn.net/weixin_46763556" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-csdn"></use></svg></span></a><a target="_blank" href="https://juejin.cn/user/3404513258767709" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-juejin"></use></svg></span></a><a target="_blank" href="https://github.com/xingwanjiang" class="sns-link"><span class="sns-icon"><svg class="icon" style="font-size:40px;"><use xlink:href="#icon-github"></use></svg></span></a></p> <div class="copyright"><span id="custom">Copyright &copy; xingwanjiang Blog 2020 <br /></span> <!----></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.4c583df9.js" defer></script><script src="/assets/js/6.56c26bb2.js" defer></script><script src="/assets/js/7.227acdc0.js" defer></script>
+  </body>
+</html>
